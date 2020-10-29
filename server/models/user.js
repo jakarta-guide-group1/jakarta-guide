@@ -2,6 +2,10 @@
 const {
   Model
 } = require('sequelize');
+
+const verifyEmail = require('../helpers/emailVerifier')
+const { hashPassword } = require('../helpers/bcrypt')
+
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -15,9 +19,43 @@ module.exports = (sequelize, DataTypes) => {
     }
   };
   User.init({
-    email: DataTypes.STRING,
-    password: DataTypes.STRING
+    email: {
+      type: DataTypes.STRING,
+      validate: {
+        isEmail: {
+          args: true, 
+          msg: 'please input a valid email address'
+        },
+        notEmpty: {
+          args: true,
+          msg: 'email is required'
+        }
+      }
+    },
+    password: {
+      type: DataTypes.STRING,
+      validate: {
+        notEmpty: {
+          args: true,
+          msg: 'password is required'
+        }
+      }
+
+    }
   }, {
+    hooks: {
+      beforeCreate(user) {
+        user.password = hashPassword(user.password)
+      },
+      afterValidate: async (user) => {
+        try {
+          await verifyEmail(user.email)
+        }catch(error) {
+          throw error
+        }
+      }
+    },
+
     sequelize,
     modelName: 'User',
   });
