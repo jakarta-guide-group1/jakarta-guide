@@ -3,8 +3,8 @@ const SERVER = "http://localhost:3000"
 $(document).ready(() => {
   const token = localStorage.getItem('token')
   console.log(token)
-  if(token){
-    $("#home").show()
+  if (token) {
+    $("#dashboard").show()
     $("#login").hide()
     $("#register").hide()
     $("#home-bar").show()
@@ -13,9 +13,10 @@ $(document).ready(() => {
     $("#register-bar").hide()
     $("#login-bar").hide()
     $("#logout-bar").show()
+    showHotel()
 
   } else {
-    $("#home").hide()
+    $("#dashboard").hide()
     $("#login").show()
     $("#register").hide()
     $("#home-bar").hide()
@@ -41,36 +42,45 @@ $(document).ready(() => {
     event.preventDefault()
     showRegister()
   })
+  $("#hotel-bar").on("click", () => {
+    showHotel()
+  })
+
+  $("#restaurant-bar").on("click", () => {
+    showRestaurant()
+  })
+
+  $("#destination-bar").on("click", () => {
+    showDestination()
+  })
 })
 
 function showLogin() {
-    $("#home").hide()
-    $("#login").show()
-    $("#register").hide()
-    $("#home-bar").hide()
-    $("#booking-bar").hide()
-    $("#add-new-booking-bar").hide()
-    $("#register-bar").show()
-    $("#login-bar").show()
-    $("#logout-bar").hide()
+  $("#dashboard").hide()
+  $("#login").show()
+  $("#register").hide()
+  $("#home-bar").hide()
+  $("#booking-bar").hide()
+  $("#add-new-booking-bar").hide()
+  $("#register-bar").show()
+  $("#login-bar").show()
+  $("#logout-bar").hide()
 }
 
 function showRegister() {
-  $("#home").hide()
+  $("#dashboard").hide()
   $("#login").hide()
   $("#register").show()
 }
 
 function login(event) {
   event.preventDefault()
-  console.log('login')
   const email = $("#login-email").val()
   const password = $("#login-password").val()
-  
-  console.log(email, password)
+
   $.ajax({
     method: "POST",
-    url: SERVER + "/login", 
+    url: SERVER + "/login",
     data: {
       email,
       password,
@@ -78,7 +88,6 @@ function login(event) {
   }).done(response => {
     const token = response.access_token
     localStorage.setItem('token', token)
-    // console.log(response)
     $("#login").hide()
     $("#register").hide()
     $("#home").show()
@@ -92,14 +101,12 @@ function login(event) {
 
 function register(event) {
   event.preventDefault()
-  console.log('register')
   const email = $("#register-email").val()
   const password = $("#register-password").val()
 
-  console.log(email, password)
   $.ajax({
     method: "POST",
-    url: SERVER + "/register", 
+    url: SERVER + "/register",
     data: {
       email,
       password,
@@ -118,4 +125,19 @@ function logout() {
   $("#emailLogin").val('')
   $("#passwordLogin").val('')
   showLogin()
+}
+function showHotel() {
+  $("#hotel").show()
+  $("#restaurant").hide()
+  $("#destination").hide()
+}
+function showRestaurant() {
+  $("#hotel").hide()
+  $("#restaurant").show()
+  $("#destination").hide()
+}
+function showDestination() {
+  $("#hotel").hide()
+  $("#restaurant").hide()
+  $("#destination").show()
 }
