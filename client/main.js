@@ -7,29 +7,52 @@ $(document).ready(() => {
     $("#home").show()
     $("#login").hide()
     $("#register").hide()
+    $("#home-bar").show()
+    $("#booking-bar").show()
+    $("#add-new-booking-bar").show()
+    $("#register-bar").hide()
+    $("#login-bar").hide()
+    $("#logout-bar").show()
+
   } else {
     $("#home").hide()
     $("#login").show()
     $("#register").hide()
+    $("#home-bar").hide()
+    $("#booking-bar").hide()
+    $("#add-new-booking-bar").hide()
+    $("#register-bar").show()
+    $("#login-bar").show()
+    $("#logout-bar").hide()
   }
 
-  $("#logout").on("click", () => {
+  $("#logout-bar").on("click", () => {
     logout()
   })
 
-  $("#login-button").on("click", () => {
+  $("#login-bar").on("click", () => {
     showLogin()
   })
 
-  $("#register-button").on("click", () => {
+  $("#register-bar").on("click", () => {
+    showRegister()
+  })
+  $('#a-register').on('click', (event) => {
+    event.preventDefault()
     showRegister()
   })
 })
 
 function showLogin() {
-  $("#home").hide()
-  $("#login").show()
-  $("#register").hide()
+    $("#home").hide()
+    $("#login").show()
+    $("#register").hide()
+    $("#home-bar").hide()
+    $("#booking-bar").hide()
+    $("#add-new-booking-bar").hide()
+    $("#register-bar").show()
+    $("#login-bar").show()
+    $("#logout-bar").hide()
 }
 
 function showRegister() {
@@ -91,7 +114,8 @@ function register(event) {
 }
 
 function logout() {
-  $("#home").hide()
-  $("#login").show()
-  localStorage.removeItem("token")
+  localStorage.clear()
+  $("#emailLogin").val('')
+  $("#passwordLogin").val('')
+  showLogin()
 }
