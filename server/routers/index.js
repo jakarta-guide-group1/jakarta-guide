@@ -16,5 +16,6 @@ router.post("/restaurant", RestaurantController.addRestaurants);
 router.get("/restaurant", RestaurantController.fetchRestaurants);
 router.get("/destinations", DestinationController.getDestinations);
 router.post("/destinations/add", DestinationController.addDestination);
+router.get("/destinations/1", DestinationController.showDestination);
 
 module.exports = router;

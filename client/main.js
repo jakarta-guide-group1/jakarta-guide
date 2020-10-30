@@ -4,6 +4,7 @@ let restaurant = [];
 $(document).ready(() => {
   const token = localStorage.getItem("token");
   if (token) {
+    $("#home").show();
     $("#dashboard").show();
     $("#login").hide();
     $("#register").hide();
@@ -13,7 +14,7 @@ $(document).ready(() => {
     $("#register-bar").hide();
     $("#login-bar").hide();
     $("#logout-bar").show();
-    showHotel();
+    $("#bookmark").hide();
   } else {
     $("#dashboard").hide();
     $("#login").show();
@@ -40,9 +41,6 @@ $(document).ready(() => {
   $("#a-register").on("click", (event) => {
     event.preventDefault();
     showRegister();
-  });
-  $("#hotel-bar").on("click", () => {
-    showHotel();
   });
 
   $("#restaurant-bar").on("click", () => {
@@ -97,7 +95,6 @@ function login(event) {
       $("#register-bar").hide();
       $("#login-bar").hide();
       $("#logout-bar").show();
-      showHotel();
     })
     .fail((err) => {
       console.log(err);
@@ -127,7 +124,6 @@ function onSignIn(googleUser) {
       $("#register-bar").hide();
       $("#login-bar").hide();
       $("#logout-bar").show();
-      showHotel();
     })
     .catch((err) => {
       console.log(err);
@@ -205,10 +201,16 @@ function logout() {
   $("#passwordLogin").val("");
   showLogin();
 }
-function showHotel() {
-  $("#hotel").show();
-  $("#restaurant").hide();
-  $("#destination").hide();
+
+function showBookmark() {
+  fecthUserDestination();
+  $("#home").hide();
+  $("#bookmark").show();
+  $("#bookmark-destination").show();
+}
+function showHome() {
+  $("#home").show();
+  $("#bookmark").hide();
 }
 function showRestaurant() {
   fetchRestaurant();
@@ -229,14 +231,17 @@ function fetchDestinations() {
     url: SERVER + "/destinations",
   })
     .done((response) => {
-      // console.log(response)
       let destinations;
       $("#destination").empty();
+      $("#destination").append(`
+      <h1>Popular Destinations</h1>
+      <div class="row row-cols-4">
+      `);
       for (let i = 0; i < 10; i++) {
         destinations = response[i];
         const key = "AIzaSyBwxKv_sLS0_EDLoqggjcfTJekoetAkfOQ";
         $("#destination").append(`
-  
+        
         <div class="col my-3 p-2 card" style="width: 18rem;">
         <img src="" class="card-img-top" alt="">
         <div class="card-body">
@@ -260,6 +265,10 @@ function fetchDestinations() {
         </div>
         </div>
         
+      `);
+
+        $("#destination").append(`
+        </div>
       `);
         destinations = response[i + 1];
       }
@@ -293,6 +302,55 @@ function addDestination(num) {
     });
 }
 
-function fecthUserDestination() {}
+function fecthUserDestination() {
+  $.ajax({
+    method: "GET",
+    url: SERVER + "/destinations/1",
+  })
+    .done((response) => {
+      // console.log(response);
+      let destinations;
+      $("#bookmark-destination").empty();
+      $("#bookmark-destination").append(`
+      <h1>Popular Destinations</h1>
+      <div class="row row-cols-4">
+      `);
+      for (let i = 0; i < response.length; i++) {
+        destinations = response[i];
+        console.log(destinations);
+        $("bookmark-destination").append(`
+        
+        <div class="col my-3 p-2 card" style="width: 18rem;">
+        <img src="" class="card-img-top" alt="">
+        <div class="card-body">
+          <h5 class="card-title" id="destination${i + 1}-name" value="${
+          destinations.name
+        }">${destinations.name}</h5>
+          <img width="216" height="144" src="${destinations.imageURL}">
+          <p class="card-text" id="destination${i + 1}-address" value="${
+          destinations.formatted_address
+        }">${destinations.formatted_address}</p>
+          <p class="fa fa-star checked" value="${
+            destinations.rating
+          }" id="destination${i + 1}-rating">&nbsp;${destinations.rating}</p>
+          <br>
+          <a onclick="addDestination(${i + 1})" class="btn btn-primary">Add ${
+          destinations.name
+        } to plan</a>
+        </div>
+        </div>
+        
+      `);
+
+        $("bookmark-destination").append(`
+        </div>
+      `);
+        destinations = response[i + 1];
+      }
+    })
+    .fail((err) => {
+      console.log(err);
+    });
+}
 
 function fecthUserRestaurant() {}
