@@ -170,7 +170,6 @@ function register(event) {
     });
 }
 function fetchRestaurant() {
-  console.log('restaurant')
   $.ajax({
     method: "GET",
     url: SERVER + "/restaurant",
@@ -255,6 +254,7 @@ function fetchDestinations() {
         destinations = response[i];
         const key = "AIzaSyBwxKv_sLS0_EDLoqggjcfTJekoetAkfOQ";
         $("#destination").append(`
+        
         <div class="col my-3 p-2 card" style="width: 18rem;">
         <img src="" class="card-img-top" alt="">
         <div class="card-body">
