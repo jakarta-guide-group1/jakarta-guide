@@ -1,42 +1,36 @@
-'use strict';
+"use strict";
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('TravelPlans', {
+    await queryInterface.createTable("TravelPlans", {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
       },
-      accomodation: {
-        type: Sequelize.STRING
-      },
-      restaurant: {
-        type: Sequelize.STRING
-      },
-      destination: {
-        type: Sequelize.STRING
+      type: {
+        type: Sequelize.STRING,
       },
       UserId: {
         type: Sequelize.INTEGER,
         references: {
-          model: 'Users',
-          key: 'id'
+          model: "Users",
+          key: "id",
         },
-        onUpdate: 'CASCADE',
-        onDelete: 'CASCADE'
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
       },
       createdAt: {
         allowNull: false,
-        type: Sequelize.DATE
+        type: Sequelize.DATE,
       },
       updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE
-      }
+        type: Sequelize.DATE,
+      },
     });
   },
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('TravelPlans');
-  }
+    await queryInterface.dropTable("TravelPlans");
+  },
 };

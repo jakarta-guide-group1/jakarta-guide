@@ -1,6 +1,5 @@
-
-const SERVER = "http://localhost:3000"
-let restaurant = []
+const SERVER = "http://localhost:3000";
+let restaurant = [];
 
 $(document).ready(() => {
   const token = localStorage.getItem("token");
@@ -170,16 +169,16 @@ function register(event) {
 }
 function fetchRestaurant() {
   $.ajax({
-    method: 'GET',
+    method: "GET",
     url: SERVER + "/restaurant",
     headers: {
-      access_token: localStorage.token
-    }
+      access_token: localStorage.token,
+    },
   })
-    .done(result => {
-      restaurant = result
-      console.log(restaurant)
-      $("#fetch-restaurant").empty()
+    .done((result) => {
+      restaurant = result;
+      console.log(restaurant);
+      $("#fetch-restaurant").empty();
       $.each(restaurant, function (key, value) {
         $("#fetch-restaurant").append(`
         <div class="card col-3 mx-4 mb-4 text-primary bg-dark" style="width: 18rem;">
@@ -192,12 +191,12 @@ function fetchRestaurant() {
           <p class="card-text"><b>phone Number</b>: ${value.phone}</p>
           <a href="${value.url}" class="btn btn-primary">Go To Link</a>
         </div>
-      </div>`)
-      })
+      </div>`);
+      });
     })
-    .fail(err => {
-      console.log(err)
-    })
+    .fail((err) => {
+      console.log(err);
+    });
 }
 function logout() {
   localStorage.clear();
@@ -215,30 +214,29 @@ function showHotel() {
   $("#destination").hide();
 }
 function showRestaurant() {
-  fetchRestaurant()
-  $("#hotel").hide()
-  $("#restaurant").show()
-  $("#destination").hide()
-
+  fetchRestaurant();
+  $("#hotel").hide();
+  $("#restaurant").show();
+  $("#destination").hide();
 }
 function showDestination() {
   $("#hotel").hide();
   $("#restaurant").hide();
   $("#destination").show();
-  fetchDestinations()
+  fetchDestinations();
 }
 
 function fetchDestinations() {
   $.ajax({
-    method: 'GET',
-    url: SERVER + '/destinations'
+    method: "GET",
+    url: SERVER + "/destinations",
   })
-    .done(response => {
+    .done((response) => {
       // console.log(response)
       let destinations;
       $("#destination").empty();
-      for(let i=0; i < 10; i++) {
-        destinations = response[i]
+      for (let i = 0; i < 10; i++) {
+        destinations = response[i];
         $("#destination").append(`
   
         <div class="col my-2 p-3 card" style="width: 18rem;">
@@ -251,11 +249,15 @@ function fetchDestinations() {
         </div>
         </div>
         
-      `)
-      destinations = response[i+1]
+      `);
+        destinations = response[i + 1];
       }
     })
-    .fail(err => {
-      console.log(err)
-    })
+    .fail((err) => {
+      console.log(err);
+    });
 }
+
+function fecthUserDestination() {}
+
+function fecthUserRestaurant() {}
