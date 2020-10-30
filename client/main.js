@@ -137,7 +137,7 @@ function fetchRestaurant() {
         <img src="${value.photos}" class="card-img-top pt-3" alt="...">
         <div class="card-body">
           <h5 class="card-title">${value.name}</h5>
-          <p class="card-text"><b>Address</b>: ${value.loc}</p>
+          <p class="card-text"><b>Address</b>: ${value.location}</p>
           <p class="card-text"><b>Cuisines</b>: ${value.cuisines}</p>
           <p class="card-text"><b>Open</b>: ${value.timings}</p>
           <p class="card-text"><b>phone Number</b>: ${value.phone}</p>
