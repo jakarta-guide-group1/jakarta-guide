@@ -5,7 +5,7 @@ require('dotenv').config()
 class Weather{
     static showWeather(req,res,next){
         axios({
-            url: `http://api.openweathermap.org/data/2.5/weather?id=1642907&appid=${process.env.WEATHERAPI}`
+            url: `http://api.openweathermap.org/data/2.5/weather?id=1642907&appid=a0f1265960cfc4b97ee8ff015355aec9`
         })
         .then(data=>{
             let result = data.data

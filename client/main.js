@@ -14,7 +14,9 @@ $(document).ready(() => {
     $("#register-bar").hide();
     $("#login-bar").hide();
     $("#logout-bar").show();
-    $("#bookmark").hide();
+    $("#weatherbar").show();
+    fetchRestaurant();
+    showWeather();
   } else {
     $("#dashboard").hide();
     $("#login").show();
@@ -25,6 +27,7 @@ $(document).ready(() => {
     $("#register-bar").show();
     $("#login-bar").show();
     $("#logout-bar").hide();
+    $("#weatherbar").hide();
   }
 
   $("#logout-bar").on("click", () => {
@@ -95,6 +98,7 @@ function login(event) {
       $("#register-bar").hide();
       $("#login-bar").hide();
       $("#logout-bar").show();
+      fetchRestaurant();
     })
     .fail((err) => {
       console.log(err);
@@ -124,6 +128,7 @@ function onSignIn(googleUser) {
       $("#register-bar").hide();
       $("#login-bar").hide();
       $("#logout-bar").show();
+      fetchRestaurant();
     })
     .catch((err) => {
       console.log(err);
@@ -174,7 +179,7 @@ function fetchRestaurant() {
       $("#fetch-restaurant").empty();
       $.each(restaurant, function (key, value) {
         $("#fetch-restaurant").append(`
-        <div class="card col-3 mx-4 mb-4 text-primary bg-dark" style="width: 18rem;">
+        <div class="card col-3 mx-4 mb-4">
         <img src="${value.photos}" class="card-img-top pt-3" alt="...">
         <div class="card-body">
           <h5 class="card-title">${value.name}</h5>
@@ -296,6 +301,21 @@ function addDestination(num) {
   })
     .done((response) => {
       console.log(response);
+    })
+    .fail((err) => {
+      console.log(err);
+    });
+}
+function showWeather(e) {
+  $.ajax({
+    method: "GET",
+    url: SERVER + "/weather",
+  })
+    .done((result) => {
+      console.log(result);
+      $("#kota").append(`${result.name}`);
+      $("#temp").append(`Temp: ${result.temp}`);
+      $("#weather").append(`Weather: ${result.weather}`);
     })
     .fail((err) => {
       console.log(err);

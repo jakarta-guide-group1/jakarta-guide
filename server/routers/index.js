@@ -8,7 +8,7 @@ const weatherRouter = require("./weatherRouter");
 const RestaurantController = require("../controllers/restaurantController");
 const DestinationController = require("../controllers/destinationController");
 
-// router.use(weatherRouter)
+router.use(weatherRouter)
 router.use(userRouter);
 
 // router.use(authentication);
