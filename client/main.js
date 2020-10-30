@@ -120,6 +120,7 @@ function onSignIn(googleUser) {
     .done((response) => {
       const token = response.access_token;
       localStorage.setItem("token", token);
+      $("#home").show();
       $("#dashboard").show();
       $("#login").hide();
       $("#register").hide();
@@ -129,6 +130,7 @@ function onSignIn(googleUser) {
       $("#register-bar").hide();
       $("#login-bar").hide();
       $("#logout-bar").show();
+      $("#weatherbar").show();
       fetchRestaurant();
     })
     .catch((err) => {
@@ -204,6 +206,7 @@ function logout() {
   });
   $("#emailLogin").val("");
   $("#passwordLogin").val("");
+  $("#weatherbar").hide();
   showLogin();
 }
 
@@ -212,10 +215,12 @@ function showBookmark() {
   $("#home").hide();
   $("#bookmark").show();
   $("#bookmark-destination").show();
+  $("#weatherbar").show();
 }
 function showHome() {
   $("#home").show();
   $("#bookmark").hide();
+  $("#weatherbar").show();
 }
 function showRestaurant() {
   fetchRestaurant();
