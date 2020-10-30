@@ -1,5 +1,5 @@
-const SERVER = "http://localhost:3000"
-let restaurant = []
+const SERVER = "http://localhost:3000";
+let restaurant = [];
 
 $(document).ready(() => {
   const token = localStorage.getItem("token");
@@ -107,7 +107,6 @@ function login(event) {
 // Google SignIn
 function onSignIn(googleUser) {
   const google_token = googleUser.getAuthResponse().id_token;
-  console.log(google_token);
 
   $.ajax({
     method: "POST",
@@ -167,16 +166,16 @@ function register(event) {
 }
 function fetchRestaurant() {
   $.ajax({
-    method: 'GET',
+    method: "GET",
     url: SERVER + "/restaurant",
     headers: {
-      access_token: localStorage.token
-    }
+      access_token: localStorage.token,
+    },
   })
-    .done(result => {
-      restaurant = result
-      console.log(restaurant)
-      $("#fetch-restaurant").empty()
+    .done((result) => {
+      restaurant = result;
+      console.log(restaurant);
+      $("#fetch-restaurant").empty();
       $.each(restaurant, function (key, value) {
         $("#fetch-restaurant").append(`
         <div class="card col-3 mx-4 mb-4 text-primary bg-dark" style="width: 18rem;">
@@ -189,12 +188,12 @@ function fetchRestaurant() {
           <p class="card-text"><b>phone Number</b>: ${value.phone}</p>
           <a href="${value.url}" class="btn btn-primary">Go To Link</a>
         </div>
-      </div>`)
-      })
+      </div>`);
+      });
     })
-    .fail(err => {
-      console.log(err)
-    })
+    .fail((err) => {
+      console.log(err);
+    });
 }
 function logout() {
   localStorage.clear();
@@ -212,49 +211,88 @@ function showHotel() {
   $("#destination").hide();
 }
 function showRestaurant() {
-  fetchRestaurant()
-  $("#hotel").hide()
-  $("#restaurant").show()
-  $("#destination").hide()
+  fetchRestaurant();
+  $("#hotel").hide();
+  $("#restaurant").show();
+  $("#destination").hide();
 }
 function showDestination() {
   $("#hotel").hide();
   $("#restaurant").hide();
   $("#destination").show();
-  fetchDestinations()
+  fetchDestinations();
 }
 
 function fetchDestinations() {
   $.ajax({
-    method: 'GET',
-    url: SERVER + '/destinations'
+    method: "GET",
+    url: SERVER + "/destinations",
   })
-    .done(response => {
+    .done((response) => {
       // console.log(response)
       let destinations;
       $("#destination").empty();
-      for(let i=0; i < 10; i++) {
-        destinations = response[i]
-        const key = 'AIzaSyBwxKv_sLS0_EDLoqggjcfTJekoetAkfOQ'
+      for (let i = 0; i < 10; i++) {
+        destinations = response[i];
+        const key = "AIzaSyBwxKv_sLS0_EDLoqggjcfTJekoetAkfOQ";
         $("#destination").append(`
   
         <div class="col my-3 p-2 card" style="width: 18rem;">
         <img src="" class="card-img-top" alt="">
         <div class="card-body">
-          <h5 class="card-title">${destinations.name}</h5>
-          <img width="216" height="144" src="https://maps.googleapis.com/maps/api/place/photo?key=${key}&photoreference=${destinations.photos[0].photo_reference}&maxheight=${destinations.photos[0].height}">
-          <p class="card-text">${destinations.formatted_address}</p>
-          <p class="fa fa-star checked">&nbsp;${destinations.rating}</p>
+          <h5 class="card-title" id="destination${i + 1}-name" value="${
+          destinations.name
+        }">${destinations.name}</h5>
+          <img width="216" height="144" src="https://maps.googleapis.com/maps/api/place/photo?key=${key}&photoreference=${
+          destinations.photos[0].photo_reference
+        }&maxheight=${destinations.photos[0].height}" 
+        id="destination${i + 1}-img">
+          <p class="card-text" id="destination${i + 1}-address" value="${
+          destinations.formatted_address
+        }">${destinations.formatted_address}</p>
+          <p class="fa fa-star checked" value="${
+            destinations.rating
+          }" id="destination${i + 1}-rating">&nbsp;${destinations.rating}</p>
           <br>
-          <a href="#" class="btn btn-primary">Go to ${destinations.name}</a>
+          <a onclick="addDestination(${i + 1})" class="btn btn-primary">Add ${
+          destinations.name
+        } to plan</a>
         </div>
         </div>
         
-      `)
-      destinations = response[i+1]
+      `);
+        destinations = response[i + 1];
       }
     })
-    .fail(err => {
-      console.log(err)
-    })
+    .fail((err) => {
+      console.log(err);
+    });
 }
+
+function addDestination(num) {
+  const name = $(`#destination${num}-name`).text();
+  const imgURL = $(`#destination${num}-img`).attr("src");
+  const address = $(`#destination${num}-address`).text();
+  const rating = $(`#destination${num}-rating`).text();
+
+  $.ajax({
+    method: "POST",
+    url: SERVER + "/destinations/add",
+    data: {
+      name,
+      address,
+      rating,
+      imgURL,
+    },
+  })
+    .done((response) => {
+      console.log(response);
+    })
+    .fail((err) => {
+      console.log(err);
+    });
+}
+
+function fecthUserDestination() {}
+
+function fecthUserRestaurant() {}

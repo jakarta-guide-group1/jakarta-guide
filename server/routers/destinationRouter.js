@@ -1,9 +1,7 @@
-const router = require('express').Router()
-const DestinationController = require('../controllers/destinationController')
+const router = require("express").Router();
+const DestinationController = require("../controllers/destinationController");
 
-// const axios = require('axios')
+router.get("/", DestinationController.getDestinations);
+router.post("/add", DestinationController.addDestination);
 
-
-router.get('/destinations', DestinationController.getDestinations)
-
-module.exports = router
+module.exports = router;
