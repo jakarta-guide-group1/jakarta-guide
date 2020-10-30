@@ -37,12 +37,10 @@ $(document).ready(() => {
   $("#register-bar").on("click", () => {
     showRegister();
   });
-
   $("#a-register").on("click", (event) => {
     event.preventDefault();
     showRegister();
   });
-
   $("#hotel-bar").on("click", () => {
     showHotel();
   });
