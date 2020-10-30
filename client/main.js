@@ -16,7 +16,6 @@ $(document).ready(() => {
     $("#logout-bar").show();
     $("#weatherbar").show();
     fetchRestaurant();
-    showWeather();
   } else {
     $("#dashboard").hide();
     $("#login").show();
@@ -101,6 +100,7 @@ function login(event) {
       $("#login-bar").hide();
       $("#logout-bar").show();
       $("#weatherbar").show();
+      showWeather();
       fetchRestaurant();
     })
     .fail((err) => {
@@ -133,6 +133,7 @@ function onSignIn(googleUser) {
       $("#login-bar").hide();
       $("#logout-bar").show();
       $("#weatherbar").show();
+      showWeather();
       fetchRestaurant();
     })
     .catch((err) => {
@@ -315,6 +316,9 @@ function addDestination(num) {
     });
 }
 function showWeather(e) {
+  $("#kota").empty();
+  $("#temp").empty();
+  $("#weather").empty();
   $.ajax({
     method: "GET",
     url: SERVER + "/weather",
