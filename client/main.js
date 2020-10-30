@@ -90,6 +90,7 @@ function login(event) {
     .done((response) => {
       const token = response.access_token;
       localStorage.setItem("token", token);
+      $("#home").show();
       $("#dashboard").show();
       $("#login").hide();
       $("#register").hide();
@@ -99,6 +100,7 @@ function login(event) {
       $("#register-bar").hide();
       $("#login-bar").hide();
       $("#logout-bar").show();
+      $("#weatherbar").show();
       fetchRestaurant();
     })
     .fail((err) => {
@@ -208,6 +210,7 @@ function logout() {
   $("#emailLogin").val("");
   $("#passwordLogin").val("");
   $("#weatherbar").hide();
+  $("#bookmark-destination").hide();
   showLogin();
 }
 
