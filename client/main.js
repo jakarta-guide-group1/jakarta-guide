@@ -15,6 +15,7 @@ $(document).ready(() => {
     $("#login-bar").hide();
     $("#logout-bar").show();
     $("#weatherbar").show();
+    showWeather();
     fetchRestaurant();
   } else {
     $("#dashboard").hide();
