@@ -1,4 +1,3 @@
-
 const SERVER = "http://localhost:3000"
 let restaurant = []
 
@@ -38,12 +37,10 @@ $(document).ready(() => {
   $("#register-bar").on("click", () => {
     showRegister();
   });
-
   $("#a-register").on("click", (event) => {
     event.preventDefault();
     showRegister();
   });
-
   $("#hotel-bar").on("click", () => {
     showHotel();
   });
@@ -219,7 +216,6 @@ function showRestaurant() {
   $("#hotel").hide()
   $("#restaurant").show()
   $("#destination").hide()
-
 }
 function showDestination() {
   $("#hotel").hide();
