@@ -1,10 +1,8 @@
-'use strict';
-const {
-  Model
-} = require('sequelize');
+"use strict";
+const { Model } = require("sequelize");
 
-const verifyEmail = require('../helpers/emailVerifier')
-const { hashPassword } = require('../helpers/bcrypt')
+const verifyEmail = require("../helpers/emailVerifier");
+const { hashPassword } = require("../helpers/bcrypt");
 
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
@@ -15,49 +13,52 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      User.hasMany(models.TravelPlan)
+      User.hasMany(models.Restaurant);
+      User.hasMany(models.Destination);
     }
-  };
-  User.init({
-    email: {
-      type: DataTypes.STRING,
-      validate: {
-        isEmail: {
-          args: true, 
-          msg: 'please input a valid email address'
+  }
+  User.init(
+    {
+      email: {
+        type: DataTypes.STRING,
+        validate: {
+          isEmail: {
+            args: true,
+            msg: "please input a valid email address",
+          },
+          notEmpty: {
+            args: true,
+            msg: "email is required",
+          },
         },
-        notEmpty: {
-          args: true,
-          msg: 'email is required'
-        }
-      }
-    },
-    password: {
-      type: DataTypes.STRING,
-      validate: {
-        notEmpty: {
-          args: true,
-          msg: 'password is required'
-        }
-      }
-
-    }
-  }, {
-    hooks: {
-      beforeCreate(user) {
-        user.password = hashPassword(user.password)
       },
-      afterValidate: async (user) => {
-        try {
-          await verifyEmail(user.email)
-        }catch(error) {
-          throw error
-        }
-      }
+      password: {
+        type: DataTypes.STRING,
+        validate: {
+          notEmpty: {
+            args: true,
+            msg: "password is required",
+          },
+        },
+      },
     },
+    {
+      hooks: {
+        beforeCreate(user) {
+          user.password = hashPassword(user.password);
+        },
+        afterValidate: async (user) => {
+          try {
+            await verifyEmail(user.email);
+          } catch (error) {
+            throw error;
+          }
+        },
+      },
 
-    sequelize,
-    modelName: 'User',
-  });
+      sequelize,
+      modelName: "User",
+    }
+  );
   return User;
 };
