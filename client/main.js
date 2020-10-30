@@ -28,6 +28,7 @@ $(document).ready(() => {
     $("#login-bar").show();
     $("#logout-bar").hide();
     $("#weatherbar").hide();
+    $("#home").hide();
   }
 
   $("#logout-bar").on("click", () => {
@@ -159,7 +160,6 @@ function register(event) {
     .done((response) => {
       $("#register").hide();
       $("#login").show();
-      console.log(response);
     })
     .fail((err) => {
       console.log(err);
@@ -328,11 +328,10 @@ function fecthUserDestination() {
     url: SERVER + "/destinations/1",
   })
     .done((response) => {
-      // console.log(response);
       let destinations;
       $("#bookmark-destination").empty();
       $("#bookmark-destination").append(`
-      <h1>Popular Destinations</h1>
+      <h1>Bookmarked Destination</h1>
       <div class="row row-cols-4">
       `);
       for (let i = 0; i < response.length; i++) {
