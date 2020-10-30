@@ -239,14 +239,17 @@ function fetchDestinations() {
       $("#destination").empty();
       for(let i=0; i < 10; i++) {
         destinations = response[i]
+        const key = 'AIzaSyBwxKv_sLS0_EDLoqggjcfTJekoetAkfOQ'
         $("#destination").append(`
   
-        <div class="col my-2 p-3 card" style="width: 18rem;">
+        <div class="col my-3 p-2 card" style="width: 18rem;">
         <img src="" class="card-img-top" alt="">
         <div class="card-body">
           <h5 class="card-title">${destinations.name}</h5>
+          <img width="216" height="144" src="https://maps.googleapis.com/maps/api/place/photo?key=${key}&photoreference=${destinations.photos[0].photo_reference}&maxheight=${destinations.photos[0].height}">
           <p class="card-text">${destinations.formatted_address}</p>
-          <p class="fa fa-star checked">${destinations.rating}</p>
+          <p class="fa fa-star checked">&nbsp;${destinations.rating}</p>
+          <br>
           <a href="#" class="btn btn-primary">Go to ${destinations.name}</a>
         </div>
         </div>
