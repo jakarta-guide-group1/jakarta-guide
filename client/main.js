@@ -225,4 +225,37 @@ function showDestination() {
   $("#hotel").hide();
   $("#restaurant").hide();
   $("#destination").show();
+  fetchDestinations()
+}
+
+function fetchDestinations() {
+  $.ajax({
+    method: 'GET',
+    url: SERVER + '/destinations'
+  })
+    .done(response => {
+      // console.log(response)
+      let destinations;
+      $("#destination").empty();
+      for(let i=0; i < 10; i++) {
+        destinations = response[i]
+        $("#destination").append(`
+  
+        <div class="col my-2 p-3 card" style="width: 18rem;">
+        <img src="" class="card-img-top" alt="">
+        <div class="card-body">
+          <h5 class="card-title">${destinations.name}</h5>
+          <p class="card-text">${destinations.formatted_address}</p>
+          <p class="fa fa-star checked">${destinations.rating}</p>
+          <a href="#" class="btn btn-primary">Go to ${destinations.name}</a>
+        </div>
+        </div>
+        
+      `)
+      destinations = response[i+1]
+      }
+    })
+    .fail(err => {
+      console.log(err)
+    })
 }

@@ -1,7 +1,7 @@
 function errorHandler(err, req, res, next) {
   let status = err.status || 500
   let msg = ''
-
+  console.log(err)
   switch(err.name) {
     case 'SequelizeValidationError':
       status = 400
