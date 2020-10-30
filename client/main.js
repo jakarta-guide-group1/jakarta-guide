@@ -14,7 +14,7 @@ $(document).ready(() => {
     $("#register-bar").hide();
     $("#login-bar").hide();
     $("#logout-bar").show();
-    showHotel();
+    fetchRestaurant();
   } else {
     $("#dashboard").hide();
     $("#login").show();
@@ -169,6 +169,7 @@ function register(event) {
     });
 }
 function fetchRestaurant() {
+  console.log('restaurant')
   $.ajax({
     method: 'GET',
     url: SERVER + "/restaurant",
@@ -178,7 +179,6 @@ function fetchRestaurant() {
   })
     .done(result => {
       restaurant = result
-      console.log(restaurant)
       $("#fetch-restaurant").empty()
       $.each(restaurant, function (key, value) {
         $("#fetch-restaurant").append(`
@@ -242,7 +242,7 @@ function fetchDestinations() {
         const key = 'AIzaSyBwxKv_sLS0_EDLoqggjcfTJekoetAkfOQ'
         $("#destination").append(`
   
-        <div class="col my-3 p-2 card" style="width: 18rem;">
+        <div class="col-3 my-3 p-2 card" style="width: 18rem;">
         <img src="" class="card-img-top" alt="">
         <div class="card-body">
           <h5 class="card-title">${destinations.name}</h5>

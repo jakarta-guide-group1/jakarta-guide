@@ -1,7 +1,7 @@
 const router = require("express").Router();
 
 const userRouter = require("./userRouter");
-const travelPlanRouter = require("./travelPlanRouter");
+// const travelPlanRouter = require("./travelPlanRouter");
 // const hotelRouter = require("./hotelRouter");
 const weatherRouter = require("./weatherRouter");
 const RestaurantController = require("../controllers/restaurantController");
