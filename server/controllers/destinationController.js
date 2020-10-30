@@ -12,6 +12,7 @@ class DestinationController {
       )
       
       res.json(data.results)
+      console.log(data.results)
       } 
      catch (err) {
      next(err)
