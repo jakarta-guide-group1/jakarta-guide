@@ -4,6 +4,7 @@ let restaurant = [];
 $(document).ready(() => {
   const token = localStorage.getItem("token");
   if (token) {
+    $("#home").show();
     $("#dashboard").show();
     $("#login").hide();
     $("#register").hide();
@@ -14,9 +15,8 @@ $(document).ready(() => {
     $("#login-bar").hide();
     $("#logout-bar").show();
     $("#weatherbar").show();
-    fetchRestaurant()
-    showWeather()
-
+    fetchRestaurant();
+    showWeather();
   } else {
     $("#dashboard").hide();
     $("#login").show();
@@ -28,6 +28,7 @@ $(document).ready(() => {
     $("#login-bar").show();
     $("#logout-bar").hide();
     $("#weatherbar").hide();
+    $("#home").hide();
   }
 
   $("#logout-bar").on("click", () => {
@@ -44,9 +45,6 @@ $(document).ready(() => {
   $("#a-register").on("click", (event) => {
     event.preventDefault();
     showRegister();
-  });
-  $("#hotel-bar").on("click", () => {
-    showHotel();
   });
 
   $("#restaurant-bar").on("click", () => {
@@ -101,7 +99,7 @@ function login(event) {
       $("#register-bar").hide();
       $("#login-bar").hide();
       $("#logout-bar").show();
-      fetchRestaurant()
+      fetchRestaurant();
     })
     .fail((err) => {
       console.log(err);
@@ -122,6 +120,7 @@ function onSignIn(googleUser) {
     .done((response) => {
       const token = response.access_token;
       localStorage.setItem("token", token);
+      $("#home").show();
       $("#dashboard").show();
       $("#login").hide();
       $("#register").hide();
@@ -131,7 +130,8 @@ function onSignIn(googleUser) {
       $("#register-bar").hide();
       $("#login-bar").hide();
       $("#logout-bar").show();
-      fetchRestaurant()
+      $("#weatherbar").show();
+      fetchRestaurant();
     })
     .catch((err) => {
       console.log(err);
@@ -162,7 +162,6 @@ function register(event) {
     .done((response) => {
       $("#register").hide();
       $("#login").show();
-      console.log(response);
     })
     .fail((err) => {
       console.log(err);
@@ -207,12 +206,21 @@ function logout() {
   });
   $("#emailLogin").val("");
   $("#passwordLogin").val("");
+  $("#weatherbar").hide();
   showLogin();
 }
-function showHotel() {
-  $("#hotel").show();
-  $("#restaurant").hide();
-  $("#destination").hide();
+
+function showBookmark() {
+  fecthUserDestination();
+  $("#home").hide();
+  $("#bookmark").show();
+  $("#bookmark-destination").show();
+  $("#weatherbar").show();
+}
+function showHome() {
+  $("#home").show();
+  $("#bookmark").hide();
+  $("#weatherbar").show();
 }
 function showRestaurant() {
   fetchRestaurant();
@@ -233,14 +241,17 @@ function fetchDestinations() {
     url: SERVER + "/destinations",
   })
     .done((response) => {
-      // console.log(response)
       let destinations;
       $("#destination").empty();
+      $("#destination").append(`
+      <h1>Popular Destinations</h1>
+      <div class="row row-cols-4">
+      `);
       for (let i = 0; i < 10; i++) {
         destinations = response[i];
         const key = "AIzaSyBwxKv_sLS0_EDLoqggjcfTJekoetAkfOQ";
         $("#destination").append(`
-  
+        
         <div class="col my-3 p-2 card" style="width: 18rem;">
         <img src="" class="card-img-top" alt="">
         <div class="card-body">
@@ -264,6 +275,10 @@ function fetchDestinations() {
         </div>
         </div>
         
+      `);
+
+        $("#destination").append(`
+        </div>
       `);
         destinations = response[i + 1];
       }
@@ -296,22 +311,70 @@ function addDestination(num) {
       console.log(err);
     });
 }
-function showWeather(e){
+function showWeather(e) {
   $.ajax({
-      method: "GET",
-      url: SERVER + "/weather",
+    method: "GET",
+    url: SERVER + "/weather",
   })
-  .done(result=>{
+    .done((result) => {
       console.log(result);
-      $('#kota').append(`${result.name}`)
-      $('#temp').append(`Temp: ${result.temp}`)
-      $('#weather').append(`Weather: ${result.weather}`)
-  })
-  .fail(err=>{
+      $("#kota").append(`${result.name}`);
+      $("#temp").append(`Temp: ${result.temp}`);
+      $("#weather").append(`Weather: ${result.weather}`);
+    })
+    .fail((err) => {
       console.log(err);
-  })
+    });
 }
 
-function fecthUserDestination() {}
+function fecthUserDestination() {
+  $.ajax({
+    method: "GET",
+    url: SERVER + "/destinations/1",
+  })
+    .done((response) => {
+      let destinations;
+      $("#bookmark-destination").empty();
+      $("#bookmark-destination").append(`
+      <h1>Bookmarked Destination</h1>
+      <div class="row row-cols-4">
+      `);
+      for (let i = 0; i < response.length; i++) {
+        destinations = response[i];
+        console.log(destinations);
+        $("bookmark-destination").append(`
+        
+        <div class="col my-3 p-2 card" style="width: 18rem;">
+        <img src="" class="card-img-top" alt="">
+        <div class="card-body">
+          <h5 class="card-title" id="destination${i + 1}-name" value="${
+          destinations.name
+        }">${destinations.name}</h5>
+          <img width="216" height="144" src="${destinations.imageURL}">
+          <p class="card-text" id="destination${i + 1}-address" value="${
+          destinations.formatted_address
+        }">${destinations.formatted_address}</p>
+          <p class="fa fa-star checked" value="${
+            destinations.rating
+          }" id="destination${i + 1}-rating">&nbsp;${destinations.rating}</p>
+          <br>
+          <a onclick="addDestination(${i + 1})" class="btn btn-primary">Add ${
+          destinations.name
+        } to plan</a>
+        </div>
+        </div>
+        
+      `);
+
+        $("bookmark-destination").append(`
+        </div>
+      `);
+        destinations = response[i + 1];
+      }
+    })
+    .fail((err) => {
+      console.log(err);
+    });
+}
 
 function fecthUserRestaurant() {}

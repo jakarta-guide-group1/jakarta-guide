@@ -32,13 +32,10 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item active">
-          <a class="nav-link" href="#" id="home-bar">Home</a>
+          <a class="nav-link" onclick="showHome()" id="home-bar">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#" id="booking-bar">Booking</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="#" id="add-new-booking-bar">Add New Booking</a>
+          <a class="nav-link" onclick="showBookmark()" id="booking-bar">Bookmarked</a>
         </li>
       </ul>
       <ul class="form-inline my-2 my-lg-0 navbar-nav">
@@ -69,37 +66,7 @@
         </li>
     </div>
   </nav>
-  <!-- dashboard -->
-  <div class="container" id="dashboard">
-    <nav class="navbar navbar-expand-lg text-warning mt-3">
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="#" id="restaurant-bar" onclick="showRestaurant()">Restaurant</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#" id="destination-bar" onclick="showDestination()">Destination</a>
-          </li>
-        </ul>
-      </div>
-    </nav>
-    
-    <!-- restaurant -->
-    <div class="container" id="restaurant">
-    <h1>Restaurant</h1>
-      <div class="row" id="fetch-restaurant">
-      </div>
-    </div>
-    <!-- Destination -->
-    <div class="container" id="destination">
-
-    <h1>Popular Destinations</h1>
-      <div class="row row-cols-4">
-      </div>
-    </div>
-  </div>
-
-
+  
 
   <!-- REGISTER -->
   <section class="container" id="register">
@@ -152,8 +119,42 @@
 
   <!-- HOME -->
   <section class="container-fluid" id="home">
+    <!-- dashboard -->
+  <div class="container" id="dashboard">
+    <nav class="navbar navbar-expand-lg text-warning mt-3">
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <a class="nav-link" href="#" id="restaurant-bar" onclick="showRestaurant()">Restaurant</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#" id="destination-bar" onclick="showDestination()">Destination</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+    
+    <!-- restaurant -->
+    <div class="container" id="restaurant">
+      <div class="row" id="fetch-restaurant">
+        <h1>Restaurant</h1>
+      </div>
+    </div>
+    <!-- Destination -->
+    <div class="container" id="destination">
+      
+    </div>
+  </div>
   </section>
   <!-- END HOME -->
+
+  <!--Bookmark-->
+  <section id="bookmark">
+    <!-- Destination -->
+    <div class="container" id="bookmark-destination">
+      
+    </div>
+  </section>
 
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script src="https://apis.google.com/js/platform.js" async defer></script>

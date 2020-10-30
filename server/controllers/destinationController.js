@@ -39,6 +39,15 @@ class DestinationController {
       next(err);
     }
   }
+
+  static async showDestination(req, res, next) {
+    try {
+      const destination = await Destination.findAll({ where: { UserId: 1 } });
+      res.status(200).json(destination);
+    } catch (err) {
+      next(err);
+    }
+  }
 }
 
 module.exports = DestinationController;
