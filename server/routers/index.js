@@ -5,9 +5,12 @@ const userRouter = require("./userRouter");
 // const hotelRouter = require("./hotelRoter");
 const weatherRouter = require("./weatherRouter");
 const Restaurant = require("../controllers/restaurantController");
+const RestaurantController = require("../controllers/restaurantController");
 
-router.use(weatherRouter);
+// router.use(weatherRouter)
 router.use(userRouter);
-router.get("/restaurant", Restaurant.fetchRestaurants);
+router.post('/restaurant', RestaurantController.addRestaurants)
+router.get('/restaurant', RestaurantController.fetchRestaurants)
+
 
 module.exports = router;
